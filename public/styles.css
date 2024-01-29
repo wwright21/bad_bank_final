@@ -1,0 +1,16 @@
+.nav-item:hover {
+    transition: background-color 0.5s, color 0.2s;
+    background-color: #ddd; 
+    border-radius: 5px; 
+}
+
+.nav-item.active {
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+
+/* body {
+    overflow: hidden;
+    background-image: url('Assets/money.jpeg');
+    background-size: cover;
+  } */
