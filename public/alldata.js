@@ -1,3 +1,5 @@
+import { formatCurrency } from "./utils";
+
 function AllData() {
   const [userData, setUserData] = React.useState({});
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -14,14 +16,6 @@ function AllData() {
         console.error("Error fetching data:", error);
       });
   }, []);
-
-  function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(amount);
-  }
 
   return (
     <div
