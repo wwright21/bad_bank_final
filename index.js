@@ -59,11 +59,12 @@ app.get("/account/findOne/:email", function (req, res) {
   });
 });
 
-// update - deposit/withdraw amount
+// update deposit/withdraw amount
 app.get("/account/update/:email/:amount", function (req, res) {
   var amount = Number(req.params.amount);
+  var action = amount > 0 ? "deposit" : "withdraw";
 
-  dal.update(req.params.email, amount).then((response) => {
+  dal.update(req.params.email, amount, action).then((response) => {
     console.log(response);
     res.send(response);
   });

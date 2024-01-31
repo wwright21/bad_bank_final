@@ -26,11 +26,13 @@ function Login() {
 function LoginMsg(props) {
   return (
     <>
-      <h5>Welcome: {props.user ? props.user.name : "Guest"}</h5>
+      <h5>Welcome, {props.user ? props.user.name : "Guest"}!</h5>
       <button
         type="submit"
         className="btn btn-light"
-        onClick={() => props.setShow(true)}
+        onClick={() => {
+          props.setShow(true);
+        }}
       >
         Log Back Out!
       </button>
@@ -47,7 +49,6 @@ function LoginForm(props) {
       .then((text) => {
         try {
           const data = JSON.parse(text);
-          // Assuming the server response includes user data like id, name, etc.
           // Store user data in localStorage
           localStorage.setItem("user", JSON.stringify(data));
           console.log("Balance:", data.balance);

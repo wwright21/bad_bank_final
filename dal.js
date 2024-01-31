@@ -72,18 +72,28 @@ function findOne(email) {
 }
 
 // update - deposit/withdraw amount
-function update(email, amount) {
+function update(email, amount, transactionType) {
   return new Promise((resolve, reject) => {
-    const customers = db
-      .collection("users")
-      .findOneAndUpdate(
-        { email: email },
-        { $inc: { balance: amount } },
-        { returnOriginal: false },
-        function (err, documents) {
-          err ? reject(err) : resolve(documents);
-        }
-      );
+    const currentDate = new Date();
+    const estDateString = currentDate.toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    });
+    const transaction = {
+      amount: amount,
+      timestamp: estDateString,
+      transactionType,
+    };
+    const customers = db.collection("users").findOneAndUpdate(
+      { email: email },
+      {
+        $inc: { balance: amount },
+        $push: { transactionHistory: transaction },
+      },
+      { returnOriginal: false },
+      function (err, documents) {
+        err ? reject(err) : resolve(documents);
+      }
+    );
   });
 }
 

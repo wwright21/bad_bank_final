@@ -8,21 +8,26 @@ function Deposit() {
       .then((response) => response.text())
       .then((text) => {
         try {
+          console.log("Response text:", text);
           const data = JSON.parse(text);
-
-          console.log("JSON:", data); // Log the entire data object for debugging
-          setStatus(
-            `${data.value.name}, your new balance is ${data.value.balance} dollars.`
-          );
-          setShow(false);
+          console.log("JSON:", data);
+          if (data.value && data.value.name && data.value.balance) {
+            setStatus(
+              `${data.value.name}, your new balance is ${data.value.balance} dollars.`
+            );
+            setShow(false);
+          } else {
+            setStatus("Deposit failed (invalid response)");
+            console.error("Invalid response:", data);
+          }
         } catch (err) {
-          setStatus("Deposit failed");
-          console.error("Error:", err); // Log the error for debugging
+          setStatus("Deposit failed (parsing error)");
+          console.error("Parsing error:", err);
         }
       })
       .catch((error) => {
-        setStatus("Deposit failed");
-        console.error("Fetch Error:", error); // Log fetch errors
+        setStatus("Deposit failed (fetch error)");
+        console.error("Fetch Error:", error);
       });
   }
   return (
@@ -35,9 +40,9 @@ function Deposit() {
           <DepositForm user={loggedInUser} handleDeposit={handleDeposit} />
         ) : (
           <DepositMsg
+            user={loggedInUser}
             setShow={setShow}
             setStatus={setStatus}
-            user={loggedInUser}
           />
         )
       }
@@ -48,9 +53,7 @@ function Deposit() {
 function DepositMsg(props) {
   return (
     <>
-      <h5>Success</h5>
-
-      {/* <h5>Success {props.user.name}, your new balance is {props.user.balance} dollars</h5> */}
+      <h5>Success.</h5>
       <button
         type="submit"
         className="btn btn-light"

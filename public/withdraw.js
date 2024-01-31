@@ -1,26 +1,43 @@
 function Withdraw() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
-  const [loggedInUser, setLoggedInUser] = React.useState(
-    JSON.parse(localStorage.getItem("user"))
-  );
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-  const updateUserBalance = (newBalance) => {
-    setLoggedInUser((prevUser) => ({ ...prevUser, balance: newBalance }));
-  };
-
+  function handleWithdraw(amount) {
+    fetch(`/account/update/${loggedInUser.email}/-${amount}`)
+      .then((response) => response.text())
+      .then((text) => {
+        try {
+          console.log("Response text:", text);
+          const data = JSON.parse(text);
+          console.log("JSON:", data);
+          if (data.value && data.value.name && data.value.balance) {
+            setStatus(
+              `${data.value.name}, your new balance is ${data.value.balance} dollars.`
+            );
+            setShow(false);
+          } else {
+            setStatus("Deposit failed (invalid response)");
+            console.error("Invalid response:", data);
+          }
+        } catch (err) {
+          setStatus("Deposit failed (parsing error)");
+          console.error("Parsing error:", err);
+        }
+      })
+      .catch((error) => {
+        setStatus("Deposit failed (fetch error)");
+        console.error("Fetch Error:", error);
+      });
+  }
   return (
     <Card
       bgcolor="success"
       header="Withdraw"
+      status={status}
       body={
         show ? (
-          <WithdrawForm
-            setShow={setShow}
-            setStatus={setStatus}
-            user={loggedInUser}
-            updateUserBalance={updateUserBalance}
-          />
+          <WithdrawForm user={loggedInUser} handleWithdraw={handleWithdraw} />
         ) : (
           <WithdrawMsg
             user={loggedInUser}
@@ -36,10 +53,7 @@ function Withdraw() {
 function WithdrawMsg(props) {
   return (
     <>
-      <h5>
-        Success {props.user.name}, your new balance is {props.updateUserBalance}{" "}
-        dollars.
-      </h5>
+      <h5>Success.</h5>
       <button
         type="submit"
         className="btn btn-light"
@@ -48,7 +62,7 @@ function WithdrawMsg(props) {
           props.setStatus("");
         }}
       >
-        Withdraw again, dub!
+        Withdraw again
       </button>
     </>
   );
@@ -58,25 +72,14 @@ function WithdrawForm(props) {
   const [amount, setAmount] = React.useState("");
 
   function handle() {
-    fetch(`/account/update/${props.user.email}/-${amount}`)
-      .then((response) => response.text())
-      .then((text) => {
-        try {
-          const data = JSON.parse(text);
-          props.setStatus(JSON.stringify(data.value));
-          props.setShow(false);
-          props.updateUserBalance(data.newBalance); // Update user balance after successful withdrawal
-          console.log("JSON:", data);
-        } catch (err) {
-          props.setStatus("Withdrawal failed");
-          console.log("err:", text);
-        }
-      });
+    props.handleWithdraw(amount);
   }
 
   return (
     <>
-      Welcome Back, {props.user.name}! <br />
+      Welcome back, {props.user.name}!
+      <br />
+      <br />
       Amount
       <br />
       <input
