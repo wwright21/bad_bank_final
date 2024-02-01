@@ -1,45 +1,69 @@
 function NavBar() {
   const [activeItem, setActiveItem] = React.useState("");
   const [userData, setUserData] = React.useState({});
-  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const [loggedInUser, setLoggedInUser] = React.useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
 
   // grab user's name
   React.useEffect(() => {
-    // fetch only the logged-in user's data from the API
-    fetch(`/account/find/${loggedInUser.email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        setUserData(data[0]);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
+    // if loggedInUser doesn't exist in localStorage, set it
+    if (!loggedInUser) {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          name: "Peter",
+          email: "peter@mit.edu",
+          password: "123456789",
+        })
+      );
+      setLoggedInUser({
+        name: "Peter",
+        email: "peter@mit.edu",
+        password: "123456789",
       });
+    }
+
+    // fetch only the logged-in user's data from the API
+    if (loggedInUser) {
+      fetch(`/account/find/${loggedInUser.email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data);
+          setUserData(data[0]);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
   }, [loggedInUser]);
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#" onClick={() => setActiveItem("")}>
-        Test Bank App
+    // old stuff
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <a className="navbar-brand" href="#" onClick={() => setActiveItem("")}>
+        My Bank
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav">
           <li
-            class={`nav-item ${activeItem === "CreateAccount" ? "active" : ""}`}
+            className={`nav-item ${
+              activeItem === "CreateAccount" ? "active" : ""
+            }`}
             onClick={() => setActiveItem("CreateAccount")}
           >
-            <a class="nav-link" href="#/CreateAccount/">
+            <a className="nav-link" href="#/CreateAccount/">
               Create Account
             </a>
           </li>
@@ -47,56 +71,55 @@ function NavBar() {
             class={`nav-item ${activeItem === "login" ? "active" : ""}`}
             onClick={() => setActiveItem("login")}
           >
-            <a class="nav-link" href="#/login/">
+            <a className="nav-link" href="#/login/">
               Login
             </a>
           </li>
           <li
-            class={`nav-item ${activeItem === "deposit" ? "active" : ""}`}
+            className={`nav-item ${activeItem === "deposit" ? "active" : ""}`}
             onClick={() => setActiveItem("deposit")}
           >
-            <a class="nav-link" href="#/deposit/">
+            <a className="nav-link" href="#/deposit/">
               Deposit
             </a>
           </li>
           <li
-            class={`nav-item ${activeItem === "withdraw" ? "active" : ""}`}
+            className={`nav-item ${activeItem === "withdraw" ? "active" : ""}`}
             onClick={() => setActiveItem("withdraw")}
           >
-            <a class="nav-link" href="#/withdraw/">
+            <a className="nav-link" href="#/withdraw/">
               Withdraw
             </a>
           </li>
           <li
-            class={`nav-item ${activeItem === "alldata" ? "active" : ""}`}
+            className={`nav-item ${activeItem === "alldata" ? "active" : ""}`}
             onClick={() => setActiveItem("alldata")}
           >
-            <a class="nav-link" href="#/alldata/">
+            <a className="nav-link" href="#/alldata/">
               All Data
             </a>
           </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item dropdown">
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              className="nav-link dropdown-toggle"
+              href="#"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              {userData.name && <span>Welcome, {userData.name}!</span>}
+              {loggedInUser ? (
+                <span>Welcome, {loggedInUser.name}!</span>
+              ) : (
+                <span>Welcome, {userData.name}!</span>
+              )}
             </a>
-            <ul class="dropdown-menu">
+            <ul className="dropdown-menu">
               <li>
-                <a class="dropdown-item">Logout</a>
-                <li>
-                  <li>
-                    <a class="dropdown-item">Action</a>
-                  </li>
-                  <li>
-                    <a class="dropdown-item">Something else</a>
-                  </li>
-                </li>
+                <a className="dropdown-item" href="#">
+                  Log Out
+                </a>
               </li>
             </ul>
           </li>
