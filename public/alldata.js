@@ -1,5 +1,3 @@
-// import { formatCurrency } from "./utils";
-
 function AllData() {
   const [userData, setUserData] = React.useState({});
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -28,7 +26,7 @@ function AllData() {
   return (
     <div
       class="card text-white bg-secondary mb-3"
-      style={{ maxWidth: "40rem" }}
+      style={{ maxWidth: "42rem" }}
     >
       <div className="card-header">
         <h5

@@ -12,7 +12,17 @@ function Card(props) {
 
   return (
     <div className={classes()} style={{ maxWidth: "30rem" }}>
-      <div className="card-header">{props.header}</div>
+      <div
+        className="card-header"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: "bold",
+        }}
+      >
+        {props.header}
+      </div>
       <div className="card-body">
         {props.title && <h5 className="card-title">{props.title}</h5>}
         {props.text && <p className="card-text">{props.text}</p>}

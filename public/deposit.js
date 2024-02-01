@@ -83,6 +83,28 @@ function DepositMsg(props) {
 
 function DepositForm(props) {
   const [amount, setAmount] = React.useState("");
+  const [user, setUser] = React.useState(props.user); // Initial state from props
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
+  React.useEffect(() => {
+    fetch(`/account/find/${props.user.email}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []); // empty dependency array to run only once on mount
+
+  const current_bal = formatCurrency(user.balance);
 
   function handle() {
     props.handleDeposit(amount);
@@ -90,7 +112,8 @@ function DepositForm(props) {
 
   return (
     <>
-      Welcome back, {props.user.name}!
+      Keep adding to your balance, {props.user.name}! You currently have{" "}
+      {current_bal}.
       <br />
       <br />
       Amount
@@ -103,7 +126,12 @@ function DepositForm(props) {
         onChange={(e) => setAmount(e.currentTarget.value)}
       />
       <br />
-      <button type="submit" className="btn btn-light" onClick={handle}>
+      <button
+        type="submit"
+        className="btn btn-light"
+        onClick={handle}
+        disabled={!amount}
+      >
         Deposit
       </button>
     </>

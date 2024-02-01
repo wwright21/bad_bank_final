@@ -86,11 +86,33 @@ function WithdrawMsg(props) {
 
 function WithdrawForm(props) {
   const [amount, setAmount] = React.useState("");
+  const [user, setUser] = React.useState(props.user); // Initial state from props
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
+  React.useEffect(() => {
+    fetch(`/account/find/${props.user.email}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []); // empty dependency array to run only once on mount
+
+  const current_bal = formatCurrency(user.balance);
 
   return (
     <>
       Withdraw some money, {props.user.name}! Keep in mind you only have{" "}
-      {props.newBalance} to work with.
+      {current_bal} to work with.
       <br />
       <br />
       Amount

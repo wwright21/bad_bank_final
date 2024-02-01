@@ -1,1 +1,1 @@
-# bad_bank_final
+# MERN Banking App
