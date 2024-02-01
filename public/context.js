@@ -5,13 +5,20 @@ const UserContext = React.createContext(null);
 
 function Card(props) {
   function classes() {
-    const bg = props.bgcolor ? " bg-" + props.bgcolor : " ";
+    const borderColor = props.bgcolor ? " border-" + props.bgcolor : " border";
     const txt = props.txtcolor ? " text-" + props.txtcolor : " text-white";
-    return "card mb-3 " + bg + txt;
+    return "card mb-3 " + borderColor + txt;
   }
 
   return (
-    <div className={classes()} style={{ maxWidth: "30rem" }}>
+    <div
+      className={classes()}
+      style={{
+        maxWidth: "30rem",
+        backgroundColor: "transparent",
+        borderWidth: "6px",
+      }}
+    >
       <div
         className="card-header"
         style={{
@@ -19,6 +26,8 @@ function Card(props) {
           alignItems: "center",
           justifyContent: "center",
           fontWeight: "bold",
+          fontSize: "24px",
+          borderBottom: "1px solid",
         }}
       >
         {props.header}

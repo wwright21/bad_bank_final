@@ -5,7 +5,7 @@ function Login() {
 
   return (
     <Card
-      bgcolor="secondary"
+      bgcolor="danger"
       header="Login"
       status={status}
       body={
@@ -86,7 +86,12 @@ function LoginForm(props) {
         onChange={(e) => setPassword(e.currentTarget.value)}
       />
       <br />
-      <button type="submit" className="btn btn-light" onClick={handle}>
+      <button
+        type="submit"
+        className="btn btn-light"
+        onClick={handle}
+        disabled={!email || !password}
+      >
         Login
       </button>
     </>

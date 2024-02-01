@@ -7,7 +7,6 @@ function AllData() {
     fetch(`/account/find/${loggedInUser.email}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setUserData(data[0]);
       })
       .catch((error) => {
@@ -15,6 +14,7 @@ function AllData() {
       });
   }, []);
 
+  // format the currency to show with a "$" sign and 2 decimal places
   function formatCurrency(amount) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -23,10 +23,25 @@ function AllData() {
     }).format(amount);
   }
 
+  // function to replace all but the final 4 characters of a password with the "*" character
+  function obfuscatePassword(password) {
+    if (!password) {
+      return ""; // or handle the case when the password is undefined or null
+    }
+    const lastFourChars = password.slice(-4); // Get the last four characters
+    const obfuscated = "*".repeat(password.length - 4) + lastFourChars;
+    return obfuscated;
+  }
+
   return (
     <div
-      class="card text-white bg-secondary mb-3"
-      style={{ maxWidth: "42rem" }}
+      class="card text-white mb-3"
+      style={{
+        maxWidth: "45rem",
+        backgroundColor: "transparent",
+        borderWidth: "6px",
+        borderColor: "white",
+      }}
     >
       <div className="card-header">
         <h5
@@ -36,15 +51,17 @@ function AllData() {
             alignItems: "center",
             justifyContent: "center",
             marginTop: "0.8em",
+            fontWeight: "bold",
+            fontSize: "24px",
           }}
         >
-          User Data
+          {userData.name}'s User Data
         </h5>
       </div>
       <div className="card-body">
         <h6>Name: {userData.name}</h6>
         <h6>Email: {userData.email}</h6>
-        <h6>Password: {userData.password}</h6>
+        <h6>Password: {obfuscatePassword(userData.password)}</h6>
         <h6>Current Balance: {formatCurrency(userData.balance)}</h6>
         <h6>Account Type: {userData.accountType}</h6>
         <h6>Account Number: {userData.accountNumber}</h6>

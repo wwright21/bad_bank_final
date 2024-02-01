@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(77, 77, 77)
+}
+
 .nav-item:hover {
     transition: background-color 0.5s, color 0.2s;
     background-color: #ddd; 
@@ -12,7 +16,8 @@
 .card {
   margin: 0 auto; /* Added */
   float: none; /* Added */
-  margin-bottom: 10px; /* Added */
+  padding-bottom: 10px; /* Added */
   }
+
 
 

@@ -42,16 +42,11 @@ function Withdraw() {
     // original card
     <Card
       bgcolor="warning"
-      txtcolor="black"
       header="Withdraw"
       status={status}
       body={
         show ? (
-          <WithdrawForm
-            user={loggedInUser}
-            handleWithdraw={handleWithdraw}
-            // newBalance={newBalance}
-          />
+          <WithdrawForm user={loggedInUser} handleWithdraw={handleWithdraw} />
         ) : (
           <WithdrawMsg
             user={loggedInUser}
@@ -86,7 +81,9 @@ function WithdrawMsg(props) {
 
 function WithdrawForm(props) {
   const [amount, setAmount] = React.useState("");
+  const [amountError, setAmountError] = React.useState();
   const [user, setUser] = React.useState(props.user); // Initial state from props
+  const [isAmountValid, setIsAmountValid] = React.useState(true);
 
   function formatCurrency(amount) {
     return new Intl.NumberFormat("en-US", {
@@ -125,13 +122,25 @@ function WithdrawForm(props) {
         onChange={(e) => {
           setAmount(e.currentTarget.value);
         }}
+        onBlur={() => {
+          if (amount > user.balance) {
+            setAmountError("Insufficient funds for withdrawal.");
+            setIsAmountValid(false);
+          } else {
+            setAmountError("");
+            setIsAmountValid(true);
+          }
+        }}
       />
+      <span style={{ color: "#FFFFFF", background: "#FF0000" }}>
+        {amountError}
+      </span>
       <br />
       <button
         type="submit"
         className="btn btn-light"
         onClick={() => props.handleWithdraw(amount)}
-        disabled={!amount}
+        disabled={!amount || !isAmountValid}
       >
         Withdraw
       </button>

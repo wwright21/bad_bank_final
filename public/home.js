@@ -1,11 +1,13 @@
 function Home() {
   return (
     <Card
-      txtcolor="black"
-      header="Home Page"
+      bgcolor="info"
+      header="The Bank of Will"
       title="Welcome to the bank!"
-      text="Make deposits and withdraws."
-      body={<img src="bank.png" className="img-fluid" alt="Responsive image" />}
+      text="Create an account or log in to get started."
+      body={
+        <img src="money.gif" className="img-fluid" alt="Responsive image" />
+      }
     />
   );
 }

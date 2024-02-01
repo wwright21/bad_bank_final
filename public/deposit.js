@@ -62,7 +62,7 @@ function Deposit() {
 function DepositMsg(props) {
   return (
     <>
-      <h5>Success! Your new balance is {props.newBalance}.</h5>
+      <h5>Party time! You have a new balance of {props.newBalance}.</h5>
       <br />
       <button
         type="submit"
@@ -113,7 +113,7 @@ function DepositForm(props) {
   return (
     <>
       Keep adding to your balance, {props.user.name}! You currently have{" "}
-      {current_bal}.
+      {current_bal} in the bank.
       <br />
       <br />
       Amount
