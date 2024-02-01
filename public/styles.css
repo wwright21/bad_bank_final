@@ -9,8 +9,10 @@
     border-radius: 5px;
   }
 
-/* body {
-    overflow: hidden;
-    background-image: url('Assets/money.jpeg');
-    background-size: cover;
-  } */
+  .card {
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+}
+
+

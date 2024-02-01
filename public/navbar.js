@@ -9,7 +9,7 @@ function NavBar() {
     fetch(`/account/find/${loggedInUser.email}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setUserData(data[0]);
       })
       .catch((error) => {
@@ -77,8 +77,28 @@ function NavBar() {
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="navbar-text d-flex">
-            {userData.name && <span>Welcome, {userData.name}!</span>}
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {userData.name && <span>Welcome, {userData.name}!</span>}
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item">Logout</a>
+                <li>
+                  <li>
+                    <a class="dropdown-item">Action</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item">Something else</a>
+                  </li>
+                </li>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

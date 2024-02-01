@@ -1,7 +1,16 @@
 function Withdraw() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
+  const [newBalance, setNewBalance] = React.useState("");
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
 
   function handleWithdraw(amount) {
     fetch(`/account/update/${loggedInUser.email}/-${amount}`)
@@ -12,10 +21,9 @@ function Withdraw() {
           const data = JSON.parse(text);
           console.log("JSON:", data);
           if (data.value && data.value.name && data.value.balance) {
-            setStatus(
-              `${data.value.name}, your new balance is ${data.value.balance} dollars.`
-            );
+            const newBalance = formatCurrency(data.value.balance);
             setShow(false);
+            setNewBalance(newBalance);
           } else {
             setStatus("Deposit failed (invalid response)");
             console.error("Invalid response:", data);
@@ -31,18 +39,25 @@ function Withdraw() {
       });
   }
   return (
+    // original card
     <Card
-      bgcolor="success"
+      bgcolor="warning"
+      txtcolor="black"
       header="Withdraw"
       status={status}
       body={
         show ? (
-          <WithdrawForm user={loggedInUser} handleWithdraw={handleWithdraw} />
+          <WithdrawForm
+            user={loggedInUser}
+            handleWithdraw={handleWithdraw}
+            // newBalance={newBalance}
+          />
         ) : (
           <WithdrawMsg
             user={loggedInUser}
             setShow={setShow}
             setStatus={setStatus}
+            newBalance={newBalance}
           />
         )
       }
@@ -53,7 +68,8 @@ function Withdraw() {
 function WithdrawMsg(props) {
   return (
     <>
-      <h5>Success.</h5>
+      <h5>Success! Your new balance is {props.newBalance}.</h5>
+      <br />
       <button
         type="submit"
         className="btn btn-light"
@@ -71,13 +87,10 @@ function WithdrawMsg(props) {
 function WithdrawForm(props) {
   const [amount, setAmount] = React.useState("");
 
-  function handle() {
-    props.handleWithdraw(amount);
-  }
-
   return (
     <>
-      Welcome back, {props.user.name}!
+      Withdraw some money, {props.user.name}! Keep in mind you only have{" "}
+      {props.newBalance} to work with.
       <br />
       <br />
       Amount
@@ -87,10 +100,17 @@ function WithdrawForm(props) {
         className="form-control"
         placeholder="Enter amount"
         value={amount}
-        onChange={(e) => setAmount(e.currentTarget.value)}
+        onChange={(e) => {
+          setAmount(e.currentTarget.value);
+        }}
       />
       <br />
-      <button type="submit" className="btn btn-light" onClick={handle}>
+      <button
+        type="submit"
+        className="btn btn-light"
+        onClick={() => props.handleWithdraw(amount)}
+        disabled={!amount}
+      >
         Withdraw
       </button>
     </>

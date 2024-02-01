@@ -1,7 +1,16 @@
 function Deposit() {
   const [show, setShow] = React.useState(true);
   const [status, setStatus] = React.useState("");
+  const [newBalance, setNewBalance] = React.useState("");
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
 
   function handleDeposit(amount) {
     fetch(`/account/update/${loggedInUser.email}/${amount}`)
@@ -12,10 +21,9 @@ function Deposit() {
           const data = JSON.parse(text);
           console.log("JSON:", data);
           if (data.value && data.value.name && data.value.balance) {
-            setStatus(
-              `${data.value.name}, your new balance is ${data.value.balance} dollars.`
-            );
+            const newBalance = formatCurrency(data.value.balance);
             setShow(false);
+            setNewBalance(newBalance);
           } else {
             setStatus("Deposit failed (invalid response)");
             console.error("Invalid response:", data);
@@ -43,6 +51,7 @@ function Deposit() {
             user={loggedInUser}
             setShow={setShow}
             setStatus={setStatus}
+            newBalance={newBalance}
           />
         )
       }
@@ -53,7 +62,8 @@ function Deposit() {
 function DepositMsg(props) {
   return (
     <>
-      <h5>Success.</h5>
+      <h5>Success! Your new balance is {props.newBalance}.</h5>
+      <br />
       <button
         type="submit"
         className="btn btn-light"
@@ -64,6 +74,9 @@ function DepositMsg(props) {
       >
         Deposit again
       </button>
+      <div>
+        <br></br>{" "}
+      </div>
     </>
   );
 }

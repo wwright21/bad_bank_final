@@ -1,4 +1,4 @@
-import { formatCurrency } from "./utils";
+// import { formatCurrency } from "./utils";
 
 function AllData() {
   const [userData, setUserData] = React.useState({});
@@ -17,13 +17,31 @@ function AllData() {
       });
   }, []);
 
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
   return (
     <div
       class="card text-white bg-secondary mb-3"
       style={{ maxWidth: "40rem" }}
     >
       <div className="card-header">
-        <h5 className="card-title">User Data</h5>
+        <h5
+          className="card-title"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "0.8em",
+          }}
+        >
+          User Data
+        </h5>
       </div>
       <div className="card-body">
         <h6>Name: {userData.name}</h6>
