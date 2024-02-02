@@ -2,11 +2,20 @@ function Home() {
   return (
     <Card
       bgcolor="info"
-      header="The Bank of Will"
-      title="Welcome to the bank!"
-      text="Create an account or log in to get started."
+      header="Bank of Will"
+      title="Welcome to the bank! Create an account or log in to get started."
       body={
-        <img src="money.gif" className="img-fluid" alt="Responsive image" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "0.5em",
+            overflow: "hidden",
+            height: "250px",
+          }}
+        >
+          <img src="money.gif" className="img-fluid" alt="Responsive image" />
+        </div>
       }
     />
   );

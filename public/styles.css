@@ -1,23 +1,69 @@
 body {
-  background-color: rgb(77, 77, 77)
+  background-color: black
 }
 
-.nav-item:hover {
-    transition: background-color 0.5s, color 0.2s;
-    background-color: #ddd; 
-    border-radius: 5px; 
+.navbar {
+  background-color: black;
 }
 
-.nav-item.active {
-    background-color: #ddd;
-    border-radius: 5px;
-  }
+.navbar-text {
+  color: white;
+  font-weight:400
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  transition: background-color 0.5s, color 0.2s;
+  border-radius: 5px;
+  box-shadow:inset 0px 0px 0px 2px #14a2b8;
+}
+
+.navbar-brand {
+  color: white !important
+}
+
+.navbar-brand:hover {
+  color: #14a2b8 !important;
+  border-radius: 5px;
+}
 
 .card {
   margin: 0 auto; /* Added */
   float: none; /* Added */
   padding-bottom: 10px; /* Added */
+}
+
+.btn-light:enabled:hover {
+  background-color: #14a2b8;
+  color: black;
+  border-color: white;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%283, 152, 158, 0.75%29' stroke-linecap='round' stroke-miterlimit='20' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 991px) { /* Target screens smaller than 991px */
+  .navbar-nav .nav-link:hover {
+    color: #14a2b8
   }
+}
 
+.table.table-hover.table-borderless {
+  font-size: 20px;
+}
 
+.img-fluid {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Preserve aspect ratio and crop as needed */
+}
 
+.dropdown-item-hover:hover {
+  background-color: black; /* Adjust as needed */
+  font-weight: 900;
+  color: #14a2b8 !important;
+}

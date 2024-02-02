@@ -5,7 +5,7 @@ function Login() {
 
   return (
     <Card
-      bgcolor="danger"
+      bgcolor="info"
       header="Login"
       status={status}
       body={
@@ -61,6 +61,7 @@ function LoginForm(props) {
           props.setStatus(text);
           console.log("err:", text);
         }
+        window.location = "/";
       });
   }
 

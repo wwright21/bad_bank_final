@@ -4,7 +4,7 @@ function CreateAccount() {
 
   return (
     <Card
-      bgcolor="primary"
+      bgcolor="info"
       header="Create Account"
       status={status}
       body={
@@ -51,12 +51,14 @@ function CreateForm(props) {
     // create the account
     const url = `/account/create/${name}/${email}/${password}/${accountType}`;
     (async () => {
-      var res = await fetch(url);
-      var data = await res.json();
-      console.log(data);
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`Account creation failed: ${res.statusText}`);
+      }
+      const data = await res.json();
+      localStorage.setItem("user", JSON.stringify(data));
+      props.setShow(false);
     })();
-    props.setShow(false);
-    setLoggedIn(true);
   }
 
   return (

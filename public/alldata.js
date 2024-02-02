@@ -37,10 +37,10 @@ function AllData() {
     <div
       class="card text-white mb-3"
       style={{
-        maxWidth: "45rem",
+        maxWidth: "40rem",
         backgroundColor: "transparent",
         borderWidth: "6px",
-        borderColor: "white",
+        borderColor: "#14a2b8",
       }}
     >
       <div className="card-header">
@@ -50,41 +50,73 @@ function AllData() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginTop: "0.8em",
+            marginTop: "0.5em",
             fontWeight: "bold",
             fontSize: "24px",
+            borderBottom: "1px solid",
+            paddingBottom: "23px",
+            // margin: 0,
           }}
         >
-          {userData.name}'s User Data
+          {userData.name}'s Bank Data
         </h5>
       </div>
       <div className="card-body">
-        <h6>Name: {userData.name}</h6>
-        <h6>Email: {userData.email}</h6>
-        <h6>Password: {obfuscatePassword(userData.password)}</h6>
-        <h6>Current Balance: {formatCurrency(userData.balance)}</h6>
-        <h6>Account Type: {userData.accountType}</h6>
-        <h6>Account Number: {userData.accountNumber}</h6>
-        <h6>Transaction History:</h6>
+        <table
+          className="table table-hover table-borderless"
+          style={{ color: "white", textAlign: "center" }}
+        >
+          <tr>
+            <th>User Name:</th>
+            <td>{userData.name}</td>
+          </tr>
+          <tr>
+            <th>Email:</th>
+            <td>{userData.email}</td>
+          </tr>
+          <tr>
+            <th>Password:</th>
+            <td>{obfuscatePassword(userData.password)}</td>
+          </tr>
+          <tr>
+            <th>Current Balance:</th>
+            <td>{formatCurrency(userData.balance)}</td>
+          </tr>
+          <tr>
+            <th>Account Type:</th>
+            <td>{userData.accountType}</td>
+          </tr>
+          <tr>
+            <th>Account Number:</th>
+            <td>{userData.accountNumber}</td>
+          </tr>
+        </table>
+        <br />
+        {userData.transactionHistory &&
+          userData.transactionHistory.length > 0 && (
+            <h6 style={{ textAlign: "center", fontSize: "20px" }}>
+              Transaction History:
+            </h6>
+          )}
         <ul className="list-group">
           {userData.transactionHistory &&
             userData.transactionHistory.map((transaction, index) => (
               <li
                 key={index}
-                className={`list-group-item text-white ${
+                className={`list-group-item ${
                   transaction.transactionType === "deposit"
-                    ? "bg-success"
-                    : "bg-warning"
+                    ? "text-info"
+                    : "text-danger"
                 }`}
+                style={{ backgroundColor: "transparent", textAlign: "center" }}
               >
-                Amount:{" "}
+                Type: {transaction.transactionType} | Amount:{" "}
                 {formatCurrency(
                   transaction.amount >= 0
                     ? transaction.amount
                     : -transaction.amount
-                )}
-                , Timestamp: {transaction.timestamp}, Transaction Type:{" "}
-                {transaction.transactionType}
+                )}{" "}
+                | Timestamp: {transaction.timestamp}
               </li>
             ))}
         </ul>
