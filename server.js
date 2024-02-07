@@ -1,8 +1,19 @@
-var express = require("express");
-var app = express();
-var cors = require("cors");
-var dal = require("./dal.js");
-const e = require("express");
+const express = require("express");
+const cors = require("cors");
+const {
+  create,
+  find,
+  findOne,
+  update,
+  all,
+  checkForExistingEmail,
+} = require("./dal.js");
+
+const mongoURL =
+  "mongodb+srv://wwright:<password>@cluster0.yvcwldn.mongodb.net/?retryWrites=true&w=majority";
+
+const app = express();
+const port = 3000;
 
 // used to serve static files from public directory
 app.use(express.static("public"));
@@ -90,6 +101,6 @@ app.get("/account/checkexisting", function (req, res) {
   });
 });
 
-var port = 3000;
-app.listen(port);
-console.log("Running on port: " + port);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
