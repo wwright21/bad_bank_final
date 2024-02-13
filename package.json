@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
-    "serve": "node server.js"
+    "build": "react-scripts build"
   },
   "author": "abel@mit.edu",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "cors": "^2.8.4",
     "dotenv": "^16.4.1",
     "express": "^4.16.3",
-    "mongodb": "^6.3.0"
+    "mongodb": "^6.3.0",
+    "react-scripts": "^5.0.1"
   }
 }

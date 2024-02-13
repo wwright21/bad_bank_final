@@ -7,6 +7,7 @@ const e = require("express");
 // used to serve static files from public directory
 app.use(express.static("public"));
 app.use(cors());
+app.use(express.static("build"));
 
 // create user account
 app.get(
