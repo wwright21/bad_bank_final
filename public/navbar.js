@@ -73,7 +73,7 @@ function NavBar() {
                 onClick={() => setActiveItem("login")}
               >
                 <a class="nav-link" href="#/login/">
-                  Login
+                  Log In
                 </a>
               </li>
             </>
