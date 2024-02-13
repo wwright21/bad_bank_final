@@ -2,27 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dal = require("./dal.js");
-// var dal    = require('./dalAUTHENTICATION.js');
 const e = require("express");
 
 // used to serve static files from public directory
 app.use(express.static("public"));
 app.use(cors());
 
-// // create user account - from of old
-// app.post("/account/create", async function (req, res) {
-//   try {
-//     const { name, email, password, accountType } = req.body;
-//     const result = await create(client, name, email, password, accountType);
-//     console.log(result);
-//     res.send(result);
-//   } catch (error) {
-//     console.error("Error creating user account:", error.message);
-//     res.status(500).send("Internal server error");
-//   }
-// });
-
-// create user account - from Chris Paul
+// create user account
 app.get(
   "/account/create/:name/:email/:password/:accountType",
   function (req, res) {
@@ -95,14 +81,6 @@ app.get("/account/update/:email/:amount", function (req, res) {
   dal.update(req.params.email, amount, action).then((response) => {
     console.log(response);
     res.send(response);
-  });
-});
-
-// all accounts
-app.get("/account/all", function (req, res) {
-  dal.all().then((docs) => {
-    console.log(docs);
-    res.send(docs);
   });
 });
 

@@ -50,6 +50,16 @@ function NavBar() {
             <>
               <li
                 class={`nav-item ${
+                  activeItem === "Testimonials" ? "active" : ""
+                }`}
+                onClick={() => setActiveItem("Testimonials")}
+              >
+                <a class="nav-link" href="#/Testimonials/">
+                  Testimonials
+                </a>
+              </li>
+              <li
+                class={`nav-item ${
                   activeItem === "CreateAccount" ? "active" : ""
                 }`}
                 onClick={() => setActiveItem("CreateAccount")}

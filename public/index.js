@@ -5,6 +5,7 @@ function Spa() {
         <NavBar />
         <div className="container" style={{ padding: "20px" }}>
           <Route path="/" exact component={Home} />
+          <Route path="/testimonials/" component={Testimonials} />
           <Route path="/CreateAccount/" component={CreateAccount} />
           <Route path="/login/" component={Login} />
           <Route path="/deposit/" component={Deposit} />

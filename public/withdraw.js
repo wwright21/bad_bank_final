@@ -17,24 +17,30 @@ function Withdraw() {
       .then((response) => response.text())
       .then((text) => {
         try {
-          console.log("Response text:", text);
+          // console.log("Response text:", text);
           const data = JSON.parse(text);
-          console.log("JSON:", data);
+          // console.log("JSON:", data);
           if (data.value && data.value.name && data.value.balance) {
             const newBalance = formatCurrency(data.value.balance);
+            // Update balance in Local storage
+            const updatedUser = {
+              ...loggedInUser,
+              balance: data.value.balance,
+            };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
             setShow(false);
             setNewBalance(newBalance);
           } else {
-            setStatus("Deposit failed (invalid response)");
+            setStatus("Withdraw failed (invalid response)");
             console.error("Invalid response:", data);
           }
         } catch (err) {
-          setStatus("Deposit failed (parsing error)");
+          setStatus("Withdraw failed (parsing error)");
           console.error("Parsing error:", err);
         }
       })
       .catch((error) => {
-        setStatus("Deposit failed (fetch error)");
+        setStatus("Withdraw failed (fetch error)");
         console.error("Fetch Error:", error);
       });
   }
@@ -63,7 +69,9 @@ function Withdraw() {
 function WithdrawMsg(props) {
   return (
     <>
-      <h5>Success! Your new balance is {props.newBalance}.</h5>
+      <h5 style={{ textAlign: "center" }}>
+        Success! Your new balance is {props.newBalance}.
+      </h5>
       <br />
       <button
         type="submit"
@@ -85,6 +93,12 @@ function WithdrawForm(props) {
   const [user, setUser] = React.useState(props.user); // Initial state from props
   const [isAmountValid, setIsAmountValid] = React.useState(true);
 
+  // new way - retrieve from Local storage
+  React.useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser(userData);
+  }, []);
+
   function formatCurrency(amount) {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -93,23 +107,12 @@ function WithdrawForm(props) {
     }).format(amount);
   }
 
-  React.useEffect(() => {
-    fetch(`/account/find/${props.user.email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data[0]);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []); // empty dependency array to run only once on mount
-
   const current_bal = formatCurrency(user.balance);
 
   return (
     <>
-      Withdraw some money, {props.user.name}! Keep in mind you only have{" "}
-      {current_bal} to work with.
+      Withdraw some money, {user.name}! Keep in mind you only have {current_bal}{" "}
+      to work with.
       <br />
       <br />
       Amount

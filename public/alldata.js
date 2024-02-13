@@ -1,5 +1,6 @@
 function AllData() {
   const [userData, setUserData] = React.useState({});
+  const UserContext = React.createContext(null);
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
   React.useEffect(() => {
@@ -37,10 +38,10 @@ function AllData() {
     <div
       class="card text-white mb-3"
       style={{
-        maxWidth: "40rem",
-        backgroundColor: "transparent",
-        borderWidth: "6px",
-        borderColor: "#14a2b8",
+        maxWidth: "50rem",
+        backgroundColor: "rgb(141, 179, 95)",
+        borderWidth: "0px",
+        opacity: 0.6,
       }}
     >
       <div className="card-header">
@@ -50,29 +51,28 @@ function AllData() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            marginTop: "0.5em",
+            paddingTop: "1rem",
             fontWeight: "bold",
             fontSize: "24px",
-            borderBottom: "1px solid",
-            paddingBottom: "23px",
-            // margin: 0,
+            borderBottom: "0px transparent",
+            color: "black",
           }}
         >
-          {userData.name}'s Bank Data
+          {loggedInUser.name}'s Bank Data
         </h5>
       </div>
       <div className="card-body">
         <table
           className="table table-hover table-borderless"
-          style={{ color: "white", textAlign: "center" }}
+          style={{ color: "black", textAlign: "center" }}
         >
           <tr>
             <th>User Name:</th>
-            <td>{userData.name}</td>
+            <td>{loggedInUser.name}</td>
           </tr>
           <tr>
             <th>Email:</th>
-            <td>{userData.email}</td>
+            <td>{loggedInUser.email}</td>
           </tr>
           <tr>
             <th>Password:</th>
@@ -84,17 +84,24 @@ function AllData() {
           </tr>
           <tr>
             <th>Account Type:</th>
-            <td>{userData.accountType}</td>
+            <td>{loggedInUser.accountType}</td>
           </tr>
           <tr>
             <th>Account Number:</th>
-            <td>{userData.accountNumber}</td>
+            <td>{loggedInUser.accountNumber}</td>
           </tr>
         </table>
         <br />
         {userData.transactionHistory &&
           userData.transactionHistory.length > 0 && (
-            <h6 style={{ textAlign: "center", fontSize: "20px" }}>
+            <h6
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                color: "black",
+                fontWeight: "bold",
+              }}
+            >
               Transaction History:
             </h6>
           )}
@@ -105,10 +112,10 @@ function AllData() {
                 key={index}
                 className={`list-group-item ${
                   transaction.transactionType === "deposit"
-                    ? "text-info"
+                    ? "text-dark"
                     : "text-danger"
                 }`}
-                style={{ backgroundColor: "transparent", textAlign: "center" }}
+                style={{ backgroundColor: "white", textAlign: "center" }}
               >
                 Type: {transaction.transactionType} | Amount:{" "}
                 {formatCurrency(

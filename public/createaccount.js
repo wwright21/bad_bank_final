@@ -12,21 +12,6 @@ function CreateAccount() {
   );
 }
 
-// function CreateMsg(props) {
-//   return (
-//     <>
-//       <h5>Success</h5>
-//       <button
-//         type="submit"
-//         className="btn btn-light"
-//         onClick={() => props.setShow(true)}
-//       >
-//         Add another account
-//       </button>
-//     </>
-//   );
-// }
-
 function CreateForm(props) {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");

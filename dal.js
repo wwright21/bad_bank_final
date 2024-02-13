@@ -102,18 +102,6 @@ function update(email, amount, transactionType) {
   });
 }
 
-// all users
-function all() {
-  return new Promise((resolve, reject) => {
-    const customers = db
-      .collection("users")
-      .find({})
-      .toArray(function (err, docs) {
-        err ? reject(err) : resolve(docs);
-      });
-  });
-}
-
 // fetch only email addresses
 function checkForExistingEmail(req) {
   const query = req.query || {};
@@ -127,4 +115,4 @@ function checkForExistingEmail(req) {
   });
 }
 
-module.exports = { create, find, findOne, update, all, checkForExistingEmail };
+module.exports = { create, find, findOne, update, checkForExistingEmail };

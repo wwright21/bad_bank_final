@@ -17,11 +17,15 @@ function Deposit() {
       .then((response) => response.text())
       .then((text) => {
         try {
-          console.log("Response text:", text);
           const data = JSON.parse(text);
-          console.log("JSON:", data);
           if (data.value && data.value.name && data.value.balance) {
             const newBalance = formatCurrency(data.value.balance);
+            // Update balance in Local storage
+            const updatedUser = {
+              ...loggedInUser,
+              balance: data.value.balance,
+            };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
             setShow(false);
             setNewBalance(newBalance);
           } else {
@@ -83,7 +87,13 @@ function DepositMsg(props) {
 
 function DepositForm(props) {
   const [amount, setAmount] = React.useState("");
-  const [user, setUser] = React.useState(props.user); // Initial state from props
+  const [user, setUser] = React.useState(props.user);
+
+  // new way - retrieve from Local storage
+  React.useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    setUser(userData);
+  }, []);
 
   function formatCurrency(amount) {
     return new Intl.NumberFormat("en-US", {
@@ -93,17 +103,6 @@ function DepositForm(props) {
     }).format(amount);
   }
 
-  React.useEffect(() => {
-    fetch(`/account/find/${props.user.email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data[0]);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []); // empty dependency array to run only once on mount
-
   const current_bal = formatCurrency(user.balance);
 
   function handle() {
@@ -112,8 +111,8 @@ function DepositForm(props) {
 
   return (
     <>
-      Keep adding to your balance, {props.user.name}! You currently have{" "}
-      {current_bal} in the bank.
+      Keep adding to your balance, {user.name}! You currently have {current_bal}{" "}
+      in the bank.
       <br />
       <br />
       Amount
