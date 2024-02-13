@@ -1,12 +1,13 @@
 const Route = ReactRouterDOM.Route;
 const Link = ReactRouterDOM.Link;
 const HashRouter = ReactRouterDOM.HashRouter;
+const UserContext = React.createContext(null);
 
 function Card(props) {
   function classes() {
-    const borderColor = props.bgcolor ? " border-" + props.bgcolor : " border";
+    const borderColor = props.borderColor ? " border-" + props.borderColor : ""; // Adjusted this line
     const txt = props.txtcolor ? " text-" + props.txtcolor : " text-white";
-    return "card mb-3 " + borderColor + txt;
+    return "card mb-3" + borderColor + txt; // Adjusted this line
   }
 
   return (
@@ -14,8 +15,9 @@ function Card(props) {
       className={classes()}
       style={{
         maxWidth: "35rem",
-        backgroundColor: "transparent",
-        borderWidth: "6px",
+        backgroundColor: "rgb(141, 179, 95)",
+        borderWidth: "0px",
+        opacity: 0.6,
       }}
     >
       <div
@@ -26,12 +28,13 @@ function Card(props) {
           justifyContent: "center",
           fontWeight: "bold",
           fontSize: "24px",
-          borderBottom: "1px solid",
+          borderBottom: "1px transparent",
+          color: "black",
         }}
       >
         {props.header}
       </div>
-      <div className="card-body">
+      <div className="card-body" style={{ color: "black" }}>
         {props.title && (
           <h5 className="card-title" style={{ textAlign: "center" }}>
             {props.title}

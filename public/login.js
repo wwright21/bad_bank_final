@@ -47,6 +47,12 @@ function LoginForm(props) {
     fetch(`/account/login/${email}/${password}`)
       .then((response) => response.text())
       .then((text) => {
+        // if either Login failure messages are returned, exit the function
+        if (text.includes("Login failed")) {
+          props.setStatus(text);
+          return;
+        }
+
         try {
           const data = JSON.parse(text);
           // Store user data in localStorage

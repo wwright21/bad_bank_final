@@ -4,34 +4,28 @@ function CreateAccount() {
 
   return (
     <Card
-      bgcolor="info"
+      borderColor="light"
       header="Create Account"
       status={status}
-      body={
-        show ? (
-          <CreateForm setShow={setShow} />
-        ) : (
-          <CreateMsg setShow={setShow} />
-        )
-      }
+      body={<CreateForm setShow={setShow} />}
     />
   );
 }
 
-function CreateMsg(props) {
-  return (
-    <>
-      <h5>Success</h5>
-      <button
-        type="submit"
-        className="btn btn-light"
-        onClick={() => props.setShow(true)}
-      >
-        Add another account
-      </button>
-    </>
-  );
-}
+// function CreateMsg(props) {
+//   return (
+//     <>
+//       <h5>Success</h5>
+//       <button
+//         type="submit"
+//         className="btn btn-light"
+//         onClick={() => props.setShow(true)}
+//       >
+//         Add another account
+//       </button>
+//     </>
+//   );
+// }
 
 function CreateForm(props) {
   const [name, setName] = React.useState("");

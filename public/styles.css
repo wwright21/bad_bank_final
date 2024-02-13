@@ -1,9 +1,25 @@
 body {
-  background-color: black
+  background-color:black;
+  font-family:monospace
+}
+
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover; /* Preserve aspect ratio and crop as needed */
+  z-index: -1; /* Put it behind the content */
+  filter: blur(0px) brightness(0.3); /* Blur and darken effect */
 }
 
 .navbar {
-  background-color: black;
+  background-color: transparent;
+}
+
+#navbarNav {
+  justify-content: flex-end; /* Move items to the right */
 }
 
 .navbar-text {
@@ -18,15 +34,16 @@ body {
 .nav-link:hover {
   transition: background-color 0.5s, color 0.2s;
   border-radius: 5px;
-  box-shadow:inset 0px 0px 0px 2px #14a2b8;
+  box-shadow:inset 0px 0px 0px 2px rgb(141, 179, 95)
 }
 
 .navbar-brand {
-  color: white !important
+  color: white !important;
+  font-size: 30px;
 }
 
 .navbar-brand:hover {
-  color: #14a2b8 !important;
+  color: rgb(141, 179, 95) !important;
   border-radius: 5px;
 }
 
@@ -37,18 +54,26 @@ body {
 }
 
 .btn-light:enabled:hover {
-  background-color: #14a2b8;
+  background-color: rgb(141, 179, 95);
   color: black;
   border-color: white;
 }
 
 .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%283, 152, 158, 0.75%29' stroke-linecap='round' stroke-miterlimit='20' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: none
+}
+
+.navbar-toggler-icon::after {
+  content: "\f0c9";
+  font-family: "FontAwesome";
+  font-size: 22px;
+  color: #333;
+
 }
 
 @media (max-width: 991px) { /* Target screens smaller than 991px */
   .navbar-nav .nav-link:hover {
-    color: #14a2b8
+    color: rgb(141, 179, 95)
   }
 }
 
@@ -63,7 +88,14 @@ body {
 }
 
 .dropdown-item-hover:hover {
-  background-color: black; /* Adjust as needed */
+  background-color: transparent; /* Adjust as needed */
   font-weight: 900;
-  color: #14a2b8 !important;
+  color: rgb(141, 179, 95) !important;
+}
+
+.centered-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

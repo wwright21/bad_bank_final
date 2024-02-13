@@ -1,30 +1,37 @@
 function NavBar() {
   const [activeItem, setActiveItem] = React.useState("");
   const [userData, setUserData] = React.useState({});
-  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const [loggedInUser, setLoggedInUser] = React.useState(null);
 
   // grab user's name
   React.useEffect(() => {
-    // fetch only the logged-in user's data from the API
-    if (loggedInUser) {
-      fetch(`/account/find/${loggedInUser.email}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setUserData(data[0]);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
-    }
+    // fetch logged-in user data from local storage
+    const user = JSON.parse(localStorage.getItem("user"));
+    setLoggedInUser(user);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Remove the user data from local storage
+    window.location.href = "#";
+    window.location.reload();
+  };
 
   return (
     <nav
       class="navbar navbar-expand-lg"
-      style={{ marginBottom: "2rem", borderBottom: "2px solid white" }}
+      style={{
+        marginBottom: "2rem",
+        borderBottom: "3px solid #8db35f", // Main border color
+        borderBottomStyle: "solid", // Ensure solid border style
+        borderBottomWidth: "4px", // Width of the main border
+        borderBottomColor: "#8db35f", // Main border color
+        borderImage: "linear-gradient(to right, #8db35f, #ff4500, #4169e1)", // Gradient for triple lines
+        borderImageSlice: "1", // Control slicing of border image
+      }}
     >
       <a class="navbar-brand" href="#" onClick={() => setActiveItem("")}>
-        Home
+        <i class="bi bi-coin" style={{ marginRight: "0.5em" }}></i>
+        Bank of the Dark Web
       </a>
       <button
         class="navbar-toggler ml-auto custom-toggler"
@@ -38,7 +45,7 @@ function NavBar() {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
           {!loggedInUser ? (
             <>
               <li
@@ -89,12 +96,11 @@ function NavBar() {
               </li>
             </>
           ) : null}
-        </ul>
-        <ul class="navbar-nav ml-auto">
           {loggedInUser?.email ? (
-            <li class="navbar-text d-flex">
+            <li class="navbar-nav ml-auto">
               <a
                 class="nav-link dropdown-toggle"
+                style={{ color: "#808080", marginLeft: "20px" }}
                 href="#/"
                 id="navbarDropdown"
                 role="button"
@@ -102,16 +108,15 @@ function NavBar() {
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                {userData.name && <span>Welcome, {userData.name}!</span>}
+                {loggedInUser.name && (
+                  <span>Welcome, {loggedInUser.name}!</span>
+                )}
               </a>
               <div
                 class="dropdown-menu dropdown-menu-right"
                 aria-labelledby="navbarDropdown"
                 style={{ backgroundColor: "transparent" }}
-                onClick={() => {
-                  localStorage.setItem("user", null);
-                  window.location = "/";
-                }}
+                onClick={handleLogout}
               >
                 <a
                   class="dropdown-item dropdown-item-hover"

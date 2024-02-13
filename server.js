@@ -1,40 +1,52 @@
 const express = require("express");
-const cors = require("cors");
-const {
-  create,
-  find,
-  findOne,
-  update,
-  all,
-  checkForExistingEmail,
-} = require("./dal.js");
-
-const mongoURL =
-  "mongodb+srv://wwright:<password>@cluster0.yvcwldn.mongodb.net/?retryWrites=true&w=majority";
-
 const app = express();
-const port = 3000;
+const cors = require("cors");
+const dal = require("./dal.js");
+// var dal    = require('./dalAUTHENTICATION.js');
+const e = require("express");
 
 // used to serve static files from public directory
 app.use(express.static("public"));
 app.use(cors());
 
-// create user account
+// // create user account - from of old
+// app.post("/account/create", async function (req, res) {
+//   try {
+//     const { name, email, password, accountType } = req.body;
+//     const result = await create(client, name, email, password, accountType);
+//     console.log(result);
+//     res.send(result);
+//   } catch (error) {
+//     console.error("Error creating user account:", error.message);
+//     res.status(500).send("Internal server error");
+//   }
+// });
+
+// create user account - from Chris Paul
 app.get(
   "/account/create/:name/:email/:password/:accountType",
   function (req, res) {
-    // else create user
-    dal
-      .create(
-        req.params.name,
-        req.params.email,
-        req.params.password,
-        req.params.accountType
-      )
-      .then((user) => {
-        console.log(user);
-        res.send(user);
-      });
+    // check if account exists
+    dal.find(req.params.email).then((users) => {
+      // if user exists, return error message
+      if (users.length > 0) {
+        console.log("User already in exists");
+        res.send("User already in exists");
+      } else {
+        // else create user
+        dal
+          .create(
+            req.params.name,
+            req.params.email,
+            req.params.password,
+            req.params.accountType
+          )
+          .then((user) => {
+            console.log(user);
+            res.send(user);
+          });
+      }
+    });
   }
 );
 
@@ -101,6 +113,7 @@ app.get("/account/checkexisting", function (req, res) {
   });
 });
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}!`);
 });
