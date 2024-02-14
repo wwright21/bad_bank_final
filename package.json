@@ -2,20 +2,18 @@
   "name": "littledb",
   "version": "1.0.0",
   "description": "lowdb sample for 1.125",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "node server.js",
-    "build": "react-scripts build"
+    "start": "node index.js",
+    "serve": "node server.js"
   },
-  "author": "abel@mit.edu",
+  "author": "will",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.4",
     "dotenv": "^16.4.1",
     "express": "^4.16.3",
-    "mongodb": "^6.3.0",
-    "react-scripts": "^5.0.1",
-    "node":"16.20.2"
+    "mongodb": "^6.3.0"
   }
 }

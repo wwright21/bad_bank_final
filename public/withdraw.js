@@ -4,36 +4,17 @@ function Withdraw() {
   const [newBalance, setNewBalance] = React.useState("");
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-  function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(amount);
-  }
-
   function handleWithdraw(amount) {
-    fetch(`/account/update/${loggedInUser.email}/-${amount}`)
+    fetch(`/account/update/${loggedInUser.email}/-${amount}/withdraw`)
       .then((response) => response.text())
       .then((text) => {
         try {
-          // console.log("Response text:", text);
           const data = JSON.parse(text);
-          // console.log("JSON:", data);
-          if (data.value && data.value.name && data.value.balance) {
-            const newBalance = formatCurrency(data.value.balance);
-            // Update balance in Local storage
-            const updatedUser = {
-              ...loggedInUser,
-              balance: data.value.balance,
-            };
-            localStorage.setItem("user", JSON.stringify(updatedUser));
-            setShow(false);
-            setNewBalance(newBalance);
-          } else {
-            setStatus("Withdraw failed (invalid response)");
-            console.error("Invalid response:", data);
-          }
+          const expectedNB = data.balance - Number(amount);
+          const user = JSON.parse(localStorage.getItem("user"));
+          user.balance = expectedNB;
+          localStorage.setItem("user", JSON.stringify(user));
+          setShow(false);
         } catch (err) {
           setStatus("Withdraw failed (parsing error)");
           console.error("Parsing error:", err);
@@ -67,10 +48,29 @@ function Withdraw() {
 }
 
 function WithdrawMsg(props) {
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+
+  React.useEffect(() => {
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userFromLocalStorage);
+  }, []); // empty dependency array to run only once on mount
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
+  const current_bal = formatCurrency(user.balance);
+
   return (
     <>
-      <h5 style={{ textAlign: "center" }}>
-        Success! Your new balance is {props.newBalance}.
+      <h5>
+        Successful withdraw, {user.name}! Your new balance is {current_bal}.
       </h5>
       <br />
       <button
@@ -90,13 +90,15 @@ function WithdrawMsg(props) {
 function WithdrawForm(props) {
   const [amount, setAmount] = React.useState("");
   const [amountError, setAmountError] = React.useState();
-  const [user, setUser] = React.useState(props.user); // Initial state from props
   const [isAmountValid, setIsAmountValid] = React.useState(true);
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
   // new way - retrieve from Local storage
   React.useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    setUser(userData);
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userFromLocalStorage);
   }, []);
 
   function formatCurrency(amount) {
@@ -109,11 +111,16 @@ function WithdrawForm(props) {
 
   const current_bal = formatCurrency(user.balance);
 
+  function handle() {
+    props.handleWithdraw(amount);
+  }
+
   return (
     <>
-      Withdraw some money, {user.name}! Keep in mind you only have {current_bal}{" "}
-      to work with.
-      <br />
+      <h5>
+        Withdraw some money, {user.name}! Keep in mind you only have{" "}
+        {current_bal} to work with.
+      </h5>
       <br />
       Amount
       <br />

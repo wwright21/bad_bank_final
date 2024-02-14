@@ -9,36 +9,12 @@ function Login() {
       header="Login"
       status={status}
       body={
-        show ? (
-          <LoginForm
-            setShow={setShow}
-            setStatus={setStatus}
-            setUser={setUser}
-          />
-        ) : (
-          <LoginMsg setShow={setShow} setStatus={setStatus} user={user} />
-        )
+        <LoginForm setShow={setShow} setStatus={setStatus} setUser={setUser} />
       }
     />
   );
 }
 
-function LoginMsg(props) {
-  return (
-    <>
-      <h5>Welcome, {props.user ? props.user.name : "Guest"}!</h5>
-      <button
-        type="submit"
-        className="btn btn-light"
-        onClick={() => {
-          props.setShow(true);
-        }}
-      >
-        Log Back Out!
-      </button>
-    </>
-  );
-}
 function LoginForm(props) {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");

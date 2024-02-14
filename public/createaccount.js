@@ -36,8 +36,9 @@ function CreateForm(props) {
       }
       const data = await res.json();
       localStorage.setItem("user", JSON.stringify(data));
-      props.setShow(false);
+      window.location.href = "/";
     })();
+    props.setShow(false);
   }
 
   return (

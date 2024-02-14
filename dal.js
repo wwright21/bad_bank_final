@@ -1,19 +1,31 @@
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config({ path: "./config.env" });
+
 const uri = process.env.MONGODB_URI;
-let db = null;
+let db;
 
-// connect to MongoDB
-MongoClient.connect(uri, { useUnifiedTopology: true }, function (err, client) {
-  if (err) {
-    console.error("Error connecting to db server:", err);
-    return;
+(async () => {
+  try {
+    const client = await MongoClient.connect(uri);
+    console.log("Connected to MongoDB!");
+    db = client.db("MERN_bank");
+  } catch (error) {
+    console.error("Eerror connecting to Mongo:", error);
+    process.exit(1);
   }
-  console.log("Connected successfully to MongoDB!");
+})();
 
-  // create a new 'db' variable which will be used below
-  db = client.db("MERN_bank");
-});
+// // connect to MongoDB
+// MongoClient.connect(uri, function (err, client) {
+//   if (err) {
+//     console.error("Error connecting to db server:", err);
+//     return;
+//   }
+//   console.log("Connected successfully to MongoDB!");
+
+//   // create a new 'db' variable which will be used below
+//   db = client.db("MERN_bank");
+// });
 
 // create user account number
 function generateAccountNumber() {
@@ -33,10 +45,10 @@ function generateAccountNumber() {
   return accountNumber;
 }
 
-// create account
-function create(name, email, password, accountType) {
-  const accountNumber = generateAccountNumber();
-  return new Promise((resolve, reject) => {
+// create account - async
+async function create(name, email, password, accountType) {
+  try {
+    const accountNumber = generateAccountNumber();
     const collection = db.collection("users");
     const doc = {
       name,
@@ -47,22 +59,27 @@ function create(name, email, password, accountType) {
       transactionHistory: [],
       accountType,
     };
-    collection.insertOne(doc, { w: 1 }, function (err, result) {
-      err ? reject(err) : resolve(doc);
-    });
-  });
+    await collection.insertOne(doc, { w: 1 });
+    console.log("user created successfully");
+    return doc;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
 }
 
-// find user account
-function find(email) {
-  return new Promise((resolve, reject) => {
-    const customers = db
+// find user account - async
+async function find(email) {
+  try {
+    const customers = await db
       .collection("users")
       .find({ email: email })
-      .toArray(function (err, docs) {
-        err ? reject(err) : resolve(docs);
-      });
-  });
+      .toArray();
+    return customers;
+  } catch (error) {
+    console.error("Error finding user:", error);
+    throw error;
+  }
 }
 
 // find user account
@@ -76,9 +93,9 @@ function findOne(email) {
   });
 }
 
-// update - deposit/withdraw amount
-function update(email, amount, transactionType) {
-  return new Promise((resolve, reject) => {
+// update via deposit/withdraw and with transaction type - async
+async function update(email, amount, transactionType) {
+  try {
     const currentDate = new Date();
     const estDateString = currentDate.toLocaleString("en-US", {
       timeZone: "America/New_York",
@@ -88,18 +105,20 @@ function update(email, amount, transactionType) {
       timestamp: estDateString,
       transactionType,
     };
-    const customers = db.collection("users").findOneAndUpdate(
+
+    const updateDoc = await db.collection("users").findOneAndUpdate(
       { email: email },
       {
         $inc: { balance: amount },
         $push: { transactionHistory: transaction },
       },
-      { returnOriginal: false },
-      function (err, documents) {
-        err ? reject(err) : resolve(documents);
-      }
+      { returnOriginal: false }
     );
-  });
+    console.log(updateDoc);
+    return updateDoc;
+  } catch (error) {
+    throw error;
+  }
 }
 
 // fetch only email addresses
@@ -115,4 +134,10 @@ function checkForExistingEmail(req) {
   });
 }
 
-module.exports = { create, find, findOne, update, checkForExistingEmail };
+module.exports = {
+  create,
+  find,
+  findOne,
+  update,
+  checkForExistingEmail,
+};

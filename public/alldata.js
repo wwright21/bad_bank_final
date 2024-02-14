@@ -1,11 +1,21 @@
 function AllData() {
   const [userData, setUserData] = React.useState({});
   const UserContext = React.createContext(null);
-  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+
+  React.useEffect(() => {
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userFromLocalStorage);
+  }, []); // empty dependency array to run only once on mount
+
+  // // old method
+  // const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
   React.useEffect(() => {
     // fetch only the logged-in user's data from the API
-    fetch(`/account/find/${loggedInUser.email}`)
+    fetch(`/account/find/${user.email}`)
       .then((response) => response.json())
       .then((data) => {
         setUserData(data[0]);
@@ -58,7 +68,7 @@ function AllData() {
             color: "black",
           }}
         >
-          {loggedInUser.name}'s Bank Data
+          {user.name}'s Bank Data
         </h5>
       </div>
       <div className="card-body">
@@ -68,27 +78,27 @@ function AllData() {
         >
           <tr>
             <th>User Name:</th>
-            <td>{loggedInUser.name}</td>
+            <td>{user.name}</td>
           </tr>
           <tr>
             <th>Email:</th>
-            <td>{loggedInUser.email}</td>
+            <td>{user.email}</td>
           </tr>
           <tr>
             <th>Password:</th>
-            <td>{obfuscatePassword(userData.password)}</td>
+            <td>{obfuscatePassword(user.password)}</td>
           </tr>
           <tr>
             <th>Current Balance:</th>
-            <td>{formatCurrency(userData.balance)}</td>
+            <td>{formatCurrency(user.balance)}</td>
           </tr>
           <tr>
             <th>Account Type:</th>
-            <td>{loggedInUser.accountType}</td>
+            <td>{user.accountType}</td>
           </tr>
           <tr>
             <th>Account Number:</th>
-            <td>{loggedInUser.accountNumber}</td>
+            <td>{user.accountNumber}</td>
           </tr>
         </table>
         <br />

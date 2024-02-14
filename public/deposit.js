@@ -4,44 +4,29 @@ function Deposit() {
   const [newBalance, setNewBalance] = React.useState("");
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-  function formatCurrency(amount) {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      minimumFractionDigits: 2,
-    }).format(amount);
-  }
-
   function handleDeposit(amount) {
-    fetch(`/account/update/${loggedInUser.email}/${amount}`)
+    fetch(`/account/update/${loggedInUser.email}/${amount}/deposit`)
       .then((response) => response.text())
       .then((text) => {
         try {
           const data = JSON.parse(text);
-          if (data.value && data.value.name && data.value.balance) {
-            const newBalance = formatCurrency(data.value.balance);
-            // Update balance in Local storage
-            const updatedUser = {
-              ...loggedInUser,
-              balance: data.value.balance,
-            };
-            localStorage.setItem("user", JSON.stringify(updatedUser));
-            setShow(false);
-            setNewBalance(newBalance);
-          } else {
-            setStatus("Deposit failed (invalid response)");
-            console.error("Invalid response:", data);
-          }
+          const expectedNB = data.balance + Number(amount);
+          const user = JSON.parse(localStorage.getItem("user"));
+          user.balance = expectedNB;
+          localStorage.setItem("user", JSON.stringify(user));
+          // setUser(updatedUser);
+          setShow(false);
         } catch (err) {
-          setStatus("Deposit failed (parsing error)");
-          console.error("Parsing error:", err);
+          setStatus("Deposit failed");
+          console.error("Error:", err);
         }
       })
       .catch((error) => {
-        setStatus("Deposit failed (fetch error)");
-        console.error("Fetch Error:", error);
+        setStatus("Deposit failed");
+        console.error("Fetch Error:", error); // Log fetch errors
       });
   }
+
   return (
     <Card
       bgcolor="info"
@@ -64,9 +49,30 @@ function Deposit() {
 }
 
 function DepositMsg(props) {
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+
+  React.useEffect(() => {
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userFromLocalStorage);
+  }, []); // empty dependency array to run only once on mount
+
+  function formatCurrency(amount) {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    }).format(amount);
+  }
+
+  const current_bal = formatCurrency(user.balance);
+
   return (
     <>
-      <h5>Party time! You have a new balance of {props.newBalance}.</h5>
+      <h5>
+        Successful deposit, {user.name}! Your new balance is {current_bal}
+      </h5>
       <br />
       <button
         type="submit"
@@ -87,13 +93,14 @@ function DepositMsg(props) {
 
 function DepositForm(props) {
   const [amount, setAmount] = React.useState("");
-  const [user, setUser] = React.useState(props.user);
+  const [user, setUser] = React.useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
 
-  // new way - retrieve from Local storage
   React.useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("user"));
-    setUser(userData);
-  }, []);
+    const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+    setUser(userFromLocalStorage);
+  }, []); // empty dependency array to run only once on mount
 
   function formatCurrency(amount) {
     return new Intl.NumberFormat("en-US", {
@@ -111,9 +118,10 @@ function DepositForm(props) {
 
   return (
     <>
-      Keep adding to your balance, {user.name}! You currently have {current_bal}{" "}
-      in the bank.
-      <br />
+      <h5>
+        Keep adding to your balance, {user.name}! You currently have{" "}
+        {current_bal} in the bank.
+      </h5>
       <br />
       Amount
       <br />
