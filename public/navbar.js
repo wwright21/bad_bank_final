@@ -30,7 +30,11 @@ function NavBar() {
       }}
     >
       <a class="navbar-brand" href="#" onClick={() => setActiveItem("")}>
-        <i class="bi bi-coin" style={{ marginRight: "0.5em" }}></i>
+        {/* <i class="bi bi-coin" style={{ marginRight: "0.5em" }}></i> */}
+        <img
+          src="moneyBag_light.png"
+          style={{ marginRight: "0.4em", width: "35px", height: "35px" }}
+        ></img>
         Bank of the Dark Web
       </a>
       <button
