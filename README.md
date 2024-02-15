@@ -9,6 +9,14 @@ This full-stack web application is meant to simulate a banking app whereby a use
 - React.js (frontend)
 - Bootstrap (UI components)
 - Node.js (server)
-- Express (middleware)
+- Express (routing & middleware)
 - MongoDB (database)
 - Heroku (deployment)
+
+### Future Development
+
+In time, this app may be further developed to assign user roles for new accounts and the ability to transfer or send money between users of different accounts.
+
+### License
+
+This project is licensed under the terms of MIT.
