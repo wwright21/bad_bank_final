@@ -2,14 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const dal = require("./dal.js");
-const e = require("express");
+// const e = require("express");
 
 // used to serve static files from public directory
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
 
-// // scrub the user's password from Local storage
+// scrub the user's password from Local storage
 // const cleanUser = (user) => {
 //   delete user.password;
 //   return user;
