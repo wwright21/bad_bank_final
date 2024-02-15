@@ -33,15 +33,11 @@ function LoginForm(props) {
           const data = JSON.parse(text);
           // Store user data in localStorage
           localStorage.setItem("user", JSON.stringify(data));
-          console.log("Balance:", data.balance);
-          console.log("User:", data.name);
           props.setStatus("");
           props.setShow(false);
           props.setUser(data);
-          console.log("JSON:", data);
         } catch (err) {
           props.setStatus(text);
-          console.log("err:", text);
         }
         window.location = "/";
       });

@@ -87,7 +87,6 @@ function CreateForm(props) {
                 setEmailError("Network email error");
               }
               const data = await res.json();
-              console.log(data);
               if (data.existing) {
                 setEmailError("User already exists");
               } else {
