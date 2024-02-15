@@ -1,3 +1,3 @@
 # MERN Boot Camp Final Project
 
-## Bank of the Dark Web (parody app)
+Access the deployed (parody) app [here](https://mern-banking-app-c47015ff9ef1.herokuapp.com/#/).
