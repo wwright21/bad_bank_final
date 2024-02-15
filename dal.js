@@ -15,18 +15,6 @@ let db;
   }
 })();
 
-// // connect to MongoDB
-// MongoClient.connect(uri, function (err, client) {
-//   if (err) {
-//     console.error("Error connecting to db server:", err);
-//     return;
-//   }
-//   console.log("Connected successfully to MongoDB!");
-
-//   // create a new 'db' variable which will be used below
-//   db = client.db("MERN_bank");
-// });
-
 // create user account number
 function generateAccountNumber() {
   // Generate two random letters

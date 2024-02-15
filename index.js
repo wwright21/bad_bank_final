@@ -9,11 +9,11 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
 
-// scrub the user's password from Local storage
-const cleanUser = (user) => {
-  delete user.password;
-  return user;
-};
+// // scrub the user's password from Local storage
+// const cleanUser = (user) => {
+//   delete user.password;
+//   return user;
+// };
 
 // create user account
 app.get(
