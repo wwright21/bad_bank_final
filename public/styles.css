@@ -32,9 +32,6 @@ body {
 }
 
 .nav-link:hover {
-  /* transition: background-color 0.5s, color 0.2s;
-  border-radius: 5px;
-  box-shadow:inset 0px 0px 0px 2px rgb(141, 179, 95) */
   color: rgb(141, 179, 95) !important;
   transition: color 0.4s;
 }
@@ -68,13 +65,8 @@ body {
   color: white; /* Set color to white */
   border: none;
 }
-
-.navbar-toggler.collapsed .navbar-toggler-icon::before,
-.navbar-toggler.collapsed .navbar-toggler-icon::after,
-.navbar-toggler.collapsed .navbar-toggler-icon::first-line {
-  /* Override Bootstrap's default color, use white */
-  background-color: transparent;
-  border: none;
+.navbar-toggler-icon:hover {
+  color: rgb(141, 179, 95)
 }
 
 @media (max-width: 991px) { /* Target screens smaller than 991px */
