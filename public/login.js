@@ -28,7 +28,6 @@ function LoginForm(props) {
           props.setStatus(text);
           return;
         }
-
         try {
           const data = JSON.parse(text);
           // Store user data in localStorage
