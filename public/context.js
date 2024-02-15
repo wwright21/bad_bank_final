@@ -28,7 +28,7 @@ function Card(props) {
           justifyContent: "center",
           fontWeight: "bold",
           fontSize: "24px",
-          borderBottom: "1px transparent",
+          borderBottom: "0px transparent",
           color: "black",
         }}
       >

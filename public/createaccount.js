@@ -23,6 +23,9 @@ function CreateForm(props) {
   const [confirmPasswordError, setConfirmPasswordError] = React.useState("");
   const [accountType, setAccountType] = React.useState("");
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(true);
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    React.useState(false);
 
   function handle(event) {
     event.preventDefault();
@@ -74,23 +77,26 @@ function CreateForm(props) {
         onBlur={async (e) => {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(email)) {
-            setEmailError("Invalid email address.");
+            setEmailError("Invalid email address");
           } else {
-            const res = await fetch(
-              `account/checkexisting?email=${e.currentTarget.value}`
-            );
-            console.log(res);
-            if (!res.ok) {
-              setEmailError("Error checking existing email");
-            } else {
+            try {
+              const res = await fetch(
+                `account/checkexisting?email=${e.currentTarget.value}`
+              );
+              if (!res.ok) {
+                setEmailError("Network email error");
+              }
               const data = await res.json();
               console.log(data);
               if (data.existing) {
-                setEmailError("User already exists.");
-              } else if (!data.existing) {
+                setEmailError("User already exists");
+              } else {
                 setEmailError("");
                 setUniqueEmail(true);
               }
+            } catch (error) {
+              console.error(error);
+              setEmailError("Error checking existing email");
             }
           }
         }}
@@ -101,54 +107,86 @@ function CreateForm(props) {
         </span>
       ) : null}
       <br />
-      Password
-      <br />
-      <input
-        type="password"
-        className="form-control"
-        placeholder="Enter password"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.currentTarget.value);
-          setIsButtonDisabled(
-            !name || !email || !password || !confirmPassword || !accountType
-          );
-        }}
-        onBlur={() => {
-          if (password.length < 8) {
-            setPasswordError("Password must be at least 8 characters long.");
-          } else {
-            setPasswordError("");
-          }
-        }}
-      />
+      <div class="login-password">
+        Password
+        <br />
+        <div class="input-group">
+          <input
+            type={isPasswordVisible ? "text" : "password"}
+            className="form-control"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.currentTarget.value);
+              setIsButtonDisabled(
+                !name || !email || !password || !confirmPassword || !accountType
+              );
+            }}
+            onBlur={() => {
+              if (password.length < 8) {
+                setPasswordError("Password must be at least 8 characters long");
+              } else {
+                setPasswordError("");
+              }
+            }}
+          />
+          <div class="input-group-addon">
+            <i
+              class="bi bi-eye-slash"
+              id="togglePassword"
+              onClick={() => {
+                setIsPasswordVisible(!isPasswordVisible);
+              }}
+              style={{ cursor: "pointer" }}
+            ></i>
+          </div>
+        </div>
+      </div>
       <span style={{ color: "#FFFFFF", background: "#FF0000" }}>
         {passwordError}
       </span>
       <br />
-      Confirm Password
-      <br />
-      <input
-        type="password"
-        className="form-control"
-        placeholder="Confirm password"
-        value={confirmPassword}
-        onChange={(e) => {
-          setConfirmPassword(e.currentTarget.value);
-          setIsButtonDisabled(
-            !name || !email || !password || !confirmPassword || !accountType
-          );
-        }}
-        onBlur={() => {
-          if (password !== confirmPassword) {
-            setConfirmPasswordError("Passwords do not match.");
-            return;
-          } else {
-            setConfirmPasswordError("");
-            setIsButtonDisabled(!name || !email || !password || !accountType);
-          }
-        }}
-      />
+      <div class="login-password">
+        Confirm Password
+        <br />
+        <div class="input-group">
+          <input
+            type={isConfirmPasswordVisible ? "text" : "password"}
+            className="form-control"
+            placeholder="Confirm password"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.currentTarget.value);
+              setIsButtonDisabled(
+                !name || !email || !password || !confirmPassword || !accountType
+              );
+            }}
+            onBlur={() => {
+              if (password !== confirmPassword) {
+                setConfirmPasswordError("Passwords do not match");
+
+                return;
+              } else {
+                setConfirmPasswordError("");
+
+                setIsButtonDisabled(
+                  !name || !email || !password || !accountType
+                );
+              }
+            }}
+          />
+          <div class="input-group-addon">
+            <i
+              class="bi bi-eye-slash"
+              id="togglePassword"
+              onClick={() => {
+                setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
+              }}
+              style={{ cursor: "pointer" }}
+            ></i>
+          </div>
+        </div>
+      </div>
       <span style={{ color: "#FFFFFF", background: "#FF0000" }}>
         {confirmPasswordError}
       </span>
@@ -198,7 +236,12 @@ function CreateForm(props) {
         type="submit"
         className="btn btn-light"
         onClick={handle}
-        disabled={isButtonDisabled}
+        disabled={
+          isButtonDisabled ||
+          emailError !== "" ||
+          passwordError !== "" ||
+          confirmPasswordError !== ""
+        }
       >
         Create Account
       </button>

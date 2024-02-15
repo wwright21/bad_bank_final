@@ -109,17 +109,15 @@ async function update(email, amount, transactionType) {
   }
 }
 
-// fetch only email addresses
-function checkForExistingEmail(req) {
+// fetch only email addresses - async
+async function checkForExistingEmail(req) {
   const query = req.query || {};
-  return new Promise((resolve, reject) => {
-    const res = db
-      .collection("users")
-      .find(query)
-      .toArray((err, docs) => {
-        err ? reject(err) : resolve({ existing: docs[0] ? true : false });
-      });
-  });
+  try {
+    const docs = await db.collection("users").find(query).toArray();
+    return { existing: docs.length > 0 };
+  } catch (error) {
+    throw error;
+  }
 }
 
 module.exports = {

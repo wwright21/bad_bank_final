@@ -43,7 +43,7 @@ function Testimonials() {
           <br />
           <br />
           <em>
-            it works good. <br />- Anonymous user in asdfasdfasdf
+            it works good. <br />- Anonymous user
           </em>
         </p>
       </>

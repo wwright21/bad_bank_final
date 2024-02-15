@@ -50,28 +50,41 @@ function Home() {
             <div>
               <h3>
                 Welcome to the (unofficial) <br />
-                Bank of the Dark Web, stranger!
+                Bank of the Dark Web!
               </h3>
               <br />
-              <p style={{ fontSize: "21px" }}>
-                Hide your precious gems and ill-gotten funds within our walls.
-                Always anonymous, trusted by the best.
-              </p>
-              <p style={{ fontSize: "21px" }}>
-                Browse our curated testimonials, create an account, or log in to
-                get started.
+              <p style={{ fontSize: "20px" }}>
+                Hide your embezzled millions and ill-gotten gains within our
+                walls. Always anonymous, trusted by the best.
               </p>
               <br />
-              <p style={{ fontSize: "18px" }}>
-                <em>
-                  Note: This parody app is for demonstration purposes only.
-                  Please do not use a real email address or password. And
-                  certainly, please do not launder or steal any real money.
-                </em>
+              <p style={{ fontSize: "20px" }}>
+                Browse our curated testimonials, create a new account, or log in
+                to get started.
               </p>
             </div>
           </>
         )}
+      </div>
+      <div>
+        <p
+          style={{
+            color: "white",
+            fontSize: "15px",
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            margin: "auto",
+            marginTop: "575px",
+            maxWidth: "fit-content",
+          }}
+        >
+          <em>
+            <b>Note:</b> This parody app is for demonstration purposes only.
+            Please do not use a real email address or password. And certainly,
+            please do not launder or steal any real money. Ever.
+          </em>
+        </p>
       </div>
     </>
   );

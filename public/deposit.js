@@ -96,6 +96,8 @@ function DepositForm(props) {
   const [user, setUser] = React.useState(
     JSON.parse(localStorage.getItem("user"))
   );
+  const [depositError, setDepositError] = React.useState(null);
+  const [isNegative, setIsNegative] = React.useState(true);
 
   React.useEffect(() => {
     const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
@@ -116,6 +118,16 @@ function DepositForm(props) {
     props.handleDeposit(amount);
   }
 
+  const handleAmountChange = (e) => {
+    const inputValue = e.currentTarget.value;
+    const isNegativeValue = Number(inputValue) < 0;
+    setAmount(inputValue);
+    setIsNegative(isNegativeValue);
+    setDepositError(
+      isNegativeValue ? "Deposits must be a positive amount" : null
+    );
+  };
+
   return (
     <>
       <h5>
@@ -130,17 +142,26 @@ function DepositForm(props) {
         className="form-control"
         placeholder="Enter amount"
         value={amount}
-        onChange={(e) => setAmount(e.currentTarget.value)}
+        onChange={handleAmountChange}
       />
+      {depositError && (
+        <span style={{ color: "#FFFFFF", background: "#FF0000" }}>
+          {depositError}
+        </span>
+      )}
       <br />
       <button
         type="submit"
         className="btn btn-light"
         onClick={handle}
-        disabled={!amount}
+        disabled={!amount || isNegative}
       >
         Deposit
       </button>
+      <footer class="componentfooter">
+        Questions or concerns? Contact Kim with Customer Support at
+        kim@botdw.com.
+      </footer>
     </>
   );
 }

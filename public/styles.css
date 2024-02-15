@@ -60,15 +60,19 @@ body {
 }
 
 .navbar-toggler-icon {
-    background-image: none
+  font-size: 30px;
+  padding-top: 10px;
+  background-image: none;
+  color: white; /* Set color to white */
+  border: none;
 }
 
-.navbar-toggler-icon::after {
-  content: "\f0c9";
-  font-family: "FontAwesome";
-  font-size: 22px;
-  color: #333;
-
+.navbar-toggler.collapsed .navbar-toggler-icon::before,
+.navbar-toggler.collapsed .navbar-toggler-icon::after,
+.navbar-toggler.collapsed .navbar-toggler-icon::first-line {
+  /* Override Bootstrap's default color, use white */
+  background-color: transparent;
+  border: none;
 }
 
 @media (max-width: 991px) { /* Target screens smaller than 991px */
@@ -98,5 +102,25 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* for the password toggle button */
+.input-group-addon i {
+  margin-left: -30px;
+  cursor: pointer;
+  z-index: 200;
+  position: absolute;
+  font-size: large;
+  color: #6c757d;
+  padding-top: 8px
+}
+
+.componentfooter {
+  color: gray;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding-bottom: 10px;
+  padding-right: 15px
 }
 

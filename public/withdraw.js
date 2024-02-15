@@ -25,6 +25,7 @@ function Withdraw() {
         console.error("Fetch Error:", error);
       });
   }
+
   return (
     // original card
     <Card
@@ -136,6 +137,9 @@ function WithdrawForm(props) {
           if (amount > user.balance) {
             setAmountError("Insufficient funds for withdrawal.");
             setIsAmountValid(false);
+          } else if (amount < 0) {
+            setAmountError("Withdraws must be a positive amount");
+            setIsAmountValid(false);
           } else {
             setAmountError("");
             setIsAmountValid(true);
@@ -154,6 +158,10 @@ function WithdrawForm(props) {
       >
         Withdraw
       </button>
+      <footer class="componentfooter">
+        Questions or concerns? Contact Kim with Customer Support at
+        kim@botdw.com.
+      </footer>
     </>
   );
 }

@@ -93,11 +93,15 @@ app.get(
   }
 );
 
-// check for existing email
-app.get("/account/checkexisting", function (req, res) {
-  dal.checkForExistingEmail(req).then((exists) => {
+// check for existing email - async
+app.get("/account/checkexisting", async function (req, res) {
+  try {
+    const exists = await dal.checkForExistingEmail(req);
     res.send(exists);
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error" });
+  }
 });
 
 const port = process.env.PORT || 3000;

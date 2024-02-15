@@ -34,7 +34,7 @@ function NavBar() {
         Bank of the Dark Web
       </a>
       <button
-        class="navbar-toggler ml-auto custom-toggler"
+        class="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNav"
@@ -42,7 +42,9 @@ function NavBar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon">
+          <i class="bi bi-list"></i>
+        </span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
