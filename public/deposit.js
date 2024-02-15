@@ -140,7 +140,7 @@ function DepositForm(props) {
       <input
         type="number"
         className="form-control"
-        placeholder="Enter amount"
+        placeholder="Enter amount as numeric values only"
         value={amount}
         onChange={handleAmountChange}
       />

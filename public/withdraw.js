@@ -128,7 +128,7 @@ function WithdrawForm(props) {
       <input
         type="number"
         className="form-control"
-        placeholder="Enter amount"
+        placeholder="Enter amount as numeric values only"
         value={amount}
         onChange={(e) => {
           setAmount(e.currentTarget.value);

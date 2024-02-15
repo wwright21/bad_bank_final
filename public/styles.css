@@ -58,6 +58,12 @@ body {
   border-color: white;
 }
 
+.btn-light:enabled {
+  background-color: black;
+  color: white;
+  border-color: white;
+}
+
 .navbar-toggler-icon {
   font-size: 30px;
   padding-top: 10px;
