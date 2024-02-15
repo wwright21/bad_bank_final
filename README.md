@@ -8,8 +8,8 @@ This full-stack web application is meant to simulate a banking app whereby a use
 
 - React.js (frontend)
 - Bootstrap (UI components)
-- Node.js (server)
-- Express (routing & middleware)
+- Node.js (middleware)
+- Express (server)
 - MongoDB (database)
 - Heroku (deployment)
 
