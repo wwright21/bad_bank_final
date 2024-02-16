@@ -17,26 +17,26 @@ let db;
 
 // create user account number
 function generateAccountNumber() {
-  // Generate two random letters
-  const letters = Array.from({ length: 2 }, () =>
-    String.fromCharCode(Math.random() * 26 + 97)
-  ).join("");
-
-  // Generate eight random digits
-  const digits = Array.from({ length: 8 }, () =>
+  const digits = Array.from({ length: 10 }, () =>
     Math.floor(Math.random() * 10)
   ).join("");
 
-  // Combine letters, hyphen, and digits
-  const accountNumber = `${letters}-${digits}`;
+  return digits;
+}
 
-  return accountNumber;
+// generate a randomly-generated 9-digit number as a string
+function generateRoutingNumber() {
+  const digits = Array.from({ length: 9 }, () =>
+    Math.floor(Math.random() * 10)
+  ).join("");
+  return digits;
 }
 
 // create account - async
 async function create(name, email, password, accountType) {
   try {
     const accountNumber = generateAccountNumber();
+    const routingNumber = generateRoutingNumber();
     const collection = db.collection("users");
     const doc = {
       name,
@@ -44,6 +44,7 @@ async function create(name, email, password, accountType) {
       password,
       balance: 0,
       accountNumber,
+      routingNumber,
       transactionHistory: [],
       accountType,
     };
