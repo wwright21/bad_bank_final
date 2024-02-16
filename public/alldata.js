@@ -138,6 +138,11 @@ function AllData() {
           </ul>
         </div>
       </div>
+      <div class="customer-service-footer">
+        <p>
+          Questions or concerns? We're just a phone call away at (470) 305-2269.{" "}
+        </p>
+      </div>
     </>
   );
 }

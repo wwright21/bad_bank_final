@@ -72,6 +72,15 @@ function LoginForm(props) {
       >
         Login
       </button>
+      <div class="disclaimer-footer">
+        <p>
+          <em>
+            <b>Note:</b> This parody app is for demonstration purposes only.
+            Please do not use a real email address or password. <br />
+            And certainly, please do not launder or steal any real money. Ever.
+          </em>
+        </p>
+      </div>
     </>
   );
 }

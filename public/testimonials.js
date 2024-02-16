@@ -1,25 +1,7 @@
 function Testimonials() {
   return (
-    <div
-      className="centered-div"
-      style={{
-        opacity: 0.6, // Partial transparency
-        border: "none", // No border
-        backgroundColor: "rgb(141, 179, 95)", // Background color
-        maxWidth: "fit-content", // Adjust width as needed
-        height: "fit-content", // Adjust height as needed
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        borderRadius: "7px",
-        paddingTop: "25px",
-        paddingLeft: "20px",
-        paddingRight: "20px",
-      }}
-    >
-      <>
+    <>
+      <div class="welcome-card">
         <h3>Praise for Bank of the Dark Web</h3>
         <br />
         <p style={{ fontSize: "20px" }}>
@@ -46,7 +28,16 @@ function Testimonials() {
             it works good. <br />- Anonymous user
           </em>
         </p>
-      </>
-    </div>
+      </div>
+      <div class="disclaimer-footer">
+        <p>
+          <em>
+            <b>Note:</b> This parody app is for demonstration purposes only.
+            Please do not use a real email address or password. <br />
+            And certainly, please do not launder or steal any real money. Ever.
+          </em>
+        </p>
+      </div>
+    </>
   );
 }

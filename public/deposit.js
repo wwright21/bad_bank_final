@@ -158,10 +158,11 @@ function DepositForm(props) {
       >
         Deposit
       </button>
-      <footer class="componentfooter">
-        Questions or concerns? Contact Kim with Customer Support at
-        kim@botdw.com.
-      </footer>
+      <div class="customer-service-footer">
+        <p>
+          Questions or concerns? We're just a phone call away at (470) 305-2269.{" "}
+        </p>
+      </div>
     </>
   );
 }

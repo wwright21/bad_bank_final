@@ -39,6 +39,7 @@ body {
 .navbar-brand {
   color: white !important;
   font-size: 30px;
+  font-family:monospace
 }
 
 .navbar-brand:hover {
@@ -115,12 +116,52 @@ body {
   padding-top: 8px
 }
 
-.componentfooter {
-  color: gray;
+.customer-service-footer {
+  color: white;
+  font-size: 16px;
+  text-align: center;
   position: fixed;
-  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  left: 0;
   right: 0;
-  padding-bottom: 10px;
-  padding-right: 15px
+  margin: auto;
+  max-width: fit-content;
+  bottom: 15px;
+  padding: 0px 15px;
+}
+
+/* for laptops */
+.disclaimer-footer {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: fit-content;
+  bottom: 15px;
+  padding: 0 20px
+}
+
+
+
+.welcome-card {
+  opacity: 0.6;
+  border: none;
+  background-color: rgb(141, 179, 95);
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 7px;
+  padding-top: 40px;
+  padding-bottom: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
