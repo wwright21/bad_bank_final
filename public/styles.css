@@ -153,11 +153,14 @@ body {
   opacity: 0.6;
   border: none;
   background-color: rgb(141, 179, 95);
-  max-width: fit-content;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  left: 0;
+  right: 0;
+  margin: auto;
   border-radius: 7px;
   padding-top: 40px;
   padding-bottom: 35px;

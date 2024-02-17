@@ -32,7 +32,12 @@ function NavBar() {
       <a class="navbar-brand" href="#" onClick={() => setActiveItem("")}>
         <img
           src="moneyBag_light.png"
-          style={{ marginRight: "0.4em", width: "35px", height: "35px" }}
+          style={{
+            marginRight: "0.4em",
+            marginBottom: "0.3em",
+            width: "35px",
+            height: "35px",
+          }}
         ></img>
         Bank of the Dark Web
       </a>

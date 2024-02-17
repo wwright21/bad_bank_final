@@ -4,6 +4,7 @@ require("dotenv").config({ path: "./config.env" });
 const uri = process.env.MONGODB_URI;
 let db;
 
+// connect to MongoDB
 (async () => {
   try {
     const client = await MongoClient.connect(uri);
