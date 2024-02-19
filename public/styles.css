@@ -158,9 +158,11 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  left: 0;
-  right: 0;
-  margin: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
   border-radius: 7px;
   padding-top: 40px;
   padding-bottom: 35px;
