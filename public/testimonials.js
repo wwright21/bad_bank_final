@@ -4,7 +4,7 @@ function Testimonials() {
       <div class="welcome-card">
         <h3>Praise for Bank of the Dark Web</h3>
         <br />
-        <p style={{ fontSize: "20px" }}>
+        <p style={{ fontSize: "18px" }}>
           <em>
             Wow, thanks BotDW! After my successful Ponzi scheme, I had loads of
             cash and no way to hide it all. Dave Ramsey's call-in show was no
